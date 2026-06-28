@@ -1,16 +1,15 @@
-import ActorCard from "./components/ActorCard";
-import robert from "./assets/robert.jpg";
+import ActorGrid from "./components/ActorGrid";
 
 function App() {
   return (
-    <div className="min-h-screen bg-gray-100 flex justify-center items-center">
-      <ActorCard
-        name="Robert Downey Jr."
-        birthYear={1965}
-        totalFilms={3}
-        photo={robert}
-      />
+    <div className="min-h-screen bg-gray-100 p-10">
+      <h1 className="text-5xl font-bold text-center text-blue-700 mb-10">
+        Actor Profile Database
+      </h1>
+
+      <ActorGrid />
     </div>
   );
 }
+
 export default App;
