@@ -1,5 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 import actors from "../data/actors";
+import FilmographyList from "../components/FilmographyList";
 
 function ActorDetail() {
   const { id } = useParams();
@@ -29,13 +30,7 @@ function ActorDetail() {
 
         <p className="mt-2">{actor.bio}</p>
 
-        <h2 className="text-2xl font-bold mt-8">Filmography</h2>
-
-        <ul className="list-disc list-inside mt-2">
-          {actor.movies.map((movie, index) => (
-            <li key={index}>{movie}</li>
-          ))}
-        </ul>
+        <FilmographyList movies={actor.movies} />
 
         <Link
           to="/"
