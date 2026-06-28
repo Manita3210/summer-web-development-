@@ -3,8 +3,8 @@ import actors from "../data/actors";
 
 function ActorGrid() {
   return (
-    <div className="min-h-screen bg-gray-100 p-10">
-      <h1 className="text-5xl font-bold text-center text-blue-700 mb-10">
+    <div className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 p-10">
+      <h1 className="text-5xl font-bold text-center text-blue-700 mb-12">
         Actor Profile Database
       </h1>
 

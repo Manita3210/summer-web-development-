@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 function ActorCard(props) {
   return (
     <Link to={`/actor/${props.id}`}>
-      <div className="bg-white rounded-xl shadow-lg p-6 w-72 text-center hover:shadow-xl hover:scale-105 transition">
+      <div className="bg-white rounded-xl shadow-lg p-6 w-72 text-center hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 cursor-pointer">
         <img
           src={props.photo}
           alt={props.name}

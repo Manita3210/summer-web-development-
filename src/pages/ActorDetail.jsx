@@ -13,7 +13,7 @@ function ActorDetail() {
 
   return (
     <div className="min-h-screen bg-gray-100 flex justify-center items-center p-8">
-      <div className="bg-white rounded-xl shadow-lg p-8 max-w-xl w-full">
+      <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-xl w-full">
         <img
           src={actor.photo}
           alt={actor.name}
@@ -34,7 +34,7 @@ function ActorDetail() {
 
         <Link
           to="/"
-          className="inline-block mt-8 bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700"
+          className="inline-block mt-8 bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition"
         >
           ← Back to Home
         </Link>
