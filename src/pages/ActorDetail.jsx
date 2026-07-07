@@ -1,15 +1,16 @@
 import { useParams, Link } from "react-router-dom";
-import actors from "../data/actors";
 import FilmographyList from "../components/FilmographyList";
 
-function ActorDetail() {
+function ActorDetail({ actors, movies }) {
   const { id } = useParams();
 
-  const actor = actors.find((actor) => actor.id === Number(id));
+  const actor = actors.find((a) => a.id === Number(id));
 
   if (!actor) {
     return <h1>Actor not found</h1>;
   }
+
+  const actorMovies = movies.filter((movie) => movie.cast.includes(actor.id));
 
   return (
     <div className="min-h-screen bg-gray-100 flex justify-center items-center p-8">
@@ -30,11 +31,11 @@ function ActorDetail() {
 
         <p className="mt-2">{actor.bio}</p>
 
-        <FilmographyList movies={actor.movies} />
+        <FilmographyList movies={actorMovies.map((movie) => movie.title)} />
 
         <Link
           to="/"
-          className="inline-block mt-8 bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition"
+          className="inline-block mt-8 bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700"
         >
           ← Back to Home
         </Link>
