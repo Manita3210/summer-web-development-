@@ -4,6 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import ActorGrid from "./components/ActorGrid";
 import ActorDetail from "./pages/ActorDetail";
 import AddActor from "./pages/AddActor";
+import AddMovie from "./pages/AddMovie";
 
 import actorsData from "./data/actors";
 import moviesData from "./data/movies";
@@ -16,6 +17,10 @@ function App() {
     setActors([...actors, newActor]);
   };
 
+  const addMovie = (newMovie) => {
+    setMovies([...movies, newMovie]);
+  };
+
   return (
     <Routes>
       <Route path="/" element={<ActorGrid actors={actors} />} />
@@ -26,6 +31,11 @@ function App() {
       />
 
       <Route path="/add" element={<AddActor addActor={addActor} />} />
+
+      <Route
+        path="/add-movie"
+        element={<AddMovie actors={actors} addMovie={addMovie} />}
+      />
     </Routes>
   );
 }

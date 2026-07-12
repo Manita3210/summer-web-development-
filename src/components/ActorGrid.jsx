@@ -8,8 +8,14 @@ function ActorGrid({ actors }) {
         Actor Profile Database
       </h1>
       <Link to="/add">
-        <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 mb-8">
+        <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 mb-8 mr-4">
           Add Actor
+        </button>
+      </Link>
+
+      <Link to="/add-movie">
+        <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 mb-8">
+          Add Movie
         </button>
       </Link>
 
