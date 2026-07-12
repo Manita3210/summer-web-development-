@@ -1,4 +1,5 @@
 const actors = require("../../data/actors");
+const movies = require("../../data/movies");
 
 const getActors = (req, res) => {
   res.json(actors);
@@ -37,8 +38,25 @@ const deleteActor = (req, res) => {
   });
 };
 
+const getActorMovies = (req, res) => {
+  const id = Number(req.params.id);
+
+  const actor = actors.find((actor) => actor.id === id);
+
+  if (!actor) {
+    return res.status(404).json({
+      message: "Actor not found",
+    });
+  }
+
+  const actorMovies = movies.filter((movie) => movie.cast.includes(id));
+
+  res.json(actorMovies);
+};
+
 module.exports = {
   getActors,
   addActor,
   deleteActor,
+  getActorMovies,
 };
