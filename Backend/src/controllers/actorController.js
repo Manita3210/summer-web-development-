@@ -18,7 +18,27 @@ const addActor = (req, res) => {
   });
 };
 
+const deleteActor = (req, res) => {
+  const id = Number(req.params.id);
+
+  const index = actors.findIndex((actor) => actor.id === id);
+
+  if (index === -1) {
+    return res.status(404).json({
+      message: "Actor not found",
+    });
+  }
+
+  const deletedActor = actors.splice(index, 1);
+
+  res.json({
+    message: "Actor deleted successfully",
+    actor: deletedActor[0],
+  });
+};
+
 module.exports = {
   getActors,
   addActor,
+  deleteActor,
 };
