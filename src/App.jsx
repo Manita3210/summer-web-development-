@@ -21,9 +21,20 @@ function App() {
     setMovies([...movies, newMovie]);
   };
 
+  const deleteActor = (id) => {
+    setActors(actors.filter((actor) => actor.id !== id));
+  };
+
+  const deleteMovie = (id) => {
+    setMovies(movies.filter((movie) => movie.id !== id));
+  };
+
   return (
     <Routes>
-      <Route path="/" element={<ActorGrid actors={actors} />} />
+      <Route
+        path="/"
+        element={<ActorGrid actors={actors} deleteActor={deleteActor} />}
+      />
 
       <Route
         path="/actor/:id"
