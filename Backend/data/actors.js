@@ -1,4 +1,4 @@
-[
+const actors = [
   {
     id: 1,
     name: "Robert Downey Jr.",
@@ -45,3 +45,4 @@
     movies: ["Harry Potter", "Beauty and the Beast", "Little Women"],
   },
 ];
+module.exports = actors;
