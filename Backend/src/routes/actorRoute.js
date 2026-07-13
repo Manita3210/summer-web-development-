@@ -1,6 +1,10 @@
 const express = require("express");
 
 const router = express.Router();
+const {
+  actorRules,
+  handleActorValidation,
+} = require("../validators/actorValidator");
 
 const {
   getActors,
@@ -12,7 +16,7 @@ const {
 
 router.get("/", getActors);
 
-router.post("/", addActor);
+router.post("/", actorRules, handleActorValidation, addActor);
 
 router.delete("/:id", deleteActor);
 
