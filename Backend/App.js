@@ -2,7 +2,10 @@ const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const app = express();
+const dbConnection = require("./src/config/db");
+
 dotenv.config();
+dbConnection();
 
 const actorRoutes = require("./src/routes/actorRoute");
 const movieRoutes = require("./src/routes/movieRoute");
