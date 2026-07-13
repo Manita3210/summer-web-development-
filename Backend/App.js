@@ -1,13 +1,16 @@
 const express = require("express");
-
+const dotenv = require("dotenv");
+const cors = require("cors");
 const app = express();
+dotenv.config();
 
 const actorRoutes = require("./src/routes/actorRoute");
 const movieRoutes = require("./src/routes/movieRoute");
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3001;
 
 app.use(express.json());
+app.use(cors());
 
 app.use("/api/actors", actorRoutes);
 app.use("/api/movies", movieRoutes);
