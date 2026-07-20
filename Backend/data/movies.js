@@ -1,4 +1,5 @@
-const movies = [
+import mongoose from "mongoose";
+const movieSchema = [
   {
     id: 1,
     title: "Iron Man",

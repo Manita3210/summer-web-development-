@@ -1,5 +1,5 @@
 import * as actorModel from "../models/actorModel.js";
-import movies from "../../data/movies.js";
+import movie from "../../data/movie.js";
 
 export const getActors = async (req, res) => {
   const actors = await actorModel.getAll();
@@ -22,27 +22,24 @@ export const deleteActor = async (req, res) => {
 };
 
 export const getActorMovies = async (req, res) => {
-  const id = req.params.id;
-  const actorMovies = movies.filter((movie) => movie.cast.includes(id));
+  const actorMovies = await movie.find({ cast: req.params.id });
   res.json(actorMovies);
 };
 
 export const getCostars = async (req, res) => {
   const id = req.params.id;
-  const actorMovies = movies.filter((movie) => movie.cast.includes(id));
+  const actorMovies = await movie
+    .find({ cast: id })
+    .populate("cast", "name photo birthYear");
 
-  const costarIds = [];
-  actorMovies.forEach((movie) => {
-    movie.cast.forEach((actorId) => {
-      if (actorId !== id && !costarIds.includes(actorId)) {
-        costarIds.push(actorId);
+  const costarsMap = new Map();
+  actorMovies.forEach((m) => {
+    m.cast.forEach((castActor) => {
+      if (castActor._id.toString() !== id) {
+        costarsMap.set(castActor._id.toString(), castActor);
       }
     });
   });
 
-  const allActors = await actorModel.getAll();
-  const costars = allActors.filter((actor) =>
-    costarIds.includes(actor._id.toString()),
-  );
-  res.json(costars);
+  res.json(Array.from(costarsMap.values()));
 };

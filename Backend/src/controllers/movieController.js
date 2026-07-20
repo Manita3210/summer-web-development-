@@ -1,39 +1,21 @@
-import movies from "../../data/movies.js";
+import * as movieModel from "../models/movieModel.js";
 
-const getMovies = (req, res) => {
+export const getMovies = async (req, res) => {
+  const movies = await movieModel.getAll();
   res.json(movies);
 };
 
-const addMovie = (req, res) => {
-  const newMovie = {
-    id: movies.length + 1,
-    ...req.body,
-  };
-
-  movies.push(newMovie);
-
-  res.status(201).json({
-    message: "Movie added successfully",
-    movie: newMovie,
-  });
+export const addMovie = async (req, res) => {
+  const newMovie = await movieModel.add(req.body);
+  res
+    .status(201)
+    .json({ message: "Movie added successfully", movie: newMovie });
 };
 
-const deleteMovie = (req, res) => {
-  const id = Number(req.params.id);
-
-  const index = movies.findIndex((movie) => movie.id === id);
-
-  if (index === -1) {
-    return res.status(404).json({
-      message: "Movie not found",
-    });
+export const deleteMovie = async (req, res) => {
+  const deletedMovie = await movieModel.deleteMovie(req.params.id);
+  if (!deletedMovie) {
+    return res.status(404).json({ message: "Movie not found" });
   }
-
-  const deletedMovie = movies.splice(index, 1);
-
-  res.json({
-    message: "Movie deleted successfully",
-    movie: deletedMovie[0],
-  });
+  res.json({ message: "Movie deleted successfully", movie: deletedMovie });
 };
-export { getMovies, addMovie, deleteMovie };

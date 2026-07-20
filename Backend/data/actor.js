@@ -6,7 +6,6 @@ const actorSchema = mongoose.Schema({
   totalFilms: { type: Number, required: true },
   photo: { type: String, required: true, trim: true },
   bio: { type: String, required: true, trim: true },
-  movies: { type: [String], required: true },
 });
 
 const actor = mongoose.model("Actor", actorSchema);
