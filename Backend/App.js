@@ -1,14 +1,17 @@
-const express = require("express");
-const dotenv = require("dotenv");
-const cors = require("cors");
-const app = express();
-const dbConnection = require("./src/config/db");
+import express from "express";
+import dotenv from "dotenv";
+import cors from "cors";
+
+import dbConnection from "./src/config/db.js";
+
+import actorRoutes from "./src/routes/actorRoute.js";
+import movieRoutes from "./src/routes/movieRoute.js";
 
 dotenv.config();
+
 dbConnection();
 
-const actorRoutes = require("./src/routes/actorRoute");
-const movieRoutes = require("./src/routes/movieRoute");
+const app = express();
 
 const PORT = process.env.PORT || 3001;
 

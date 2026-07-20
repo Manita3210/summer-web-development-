@@ -1,4 +1,4 @@
-const movies = require("../../data/movies");
+import movies from "../../data/movies.js";
 
 const getMovies = (req, res) => {
   res.json(movies);
@@ -36,9 +36,4 @@ const deleteMovie = (req, res) => {
     movie: deletedMovie[0],
   });
 };
-
-module.exports = {
-  getMovies,
-  addMovie,
-  deleteMovie,
-};
+export { getMovies, addMovie, deleteMovie };

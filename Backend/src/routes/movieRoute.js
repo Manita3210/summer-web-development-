@@ -1,12 +1,12 @@
-const express = require("express");
+import express from "express";
 
 const router = express.Router();
 
-const {
+import {
   getMovies,
   addMovie,
   deleteMovie,
-} = require("../controllers/movieController");
+} from "../controllers/movieController.js";
 
 router.get("/", getMovies);
 
@@ -14,4 +14,4 @@ router.post("/", addMovie);
 
 router.delete("/:id", deleteMovie);
 
-module.exports = router;
+export default router;

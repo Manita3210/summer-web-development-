@@ -31,4 +31,4 @@ const movies = [
   },
 ];
 
-module.exports = movies;
+export default movies;

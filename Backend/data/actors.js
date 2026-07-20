@@ -1,6 +1,13 @@
+import mongoose from "mongoose";
+import actor from "./actor.js";
+import dotenv from "dotenv";
+
+dotenv.config({
+  path: "./.env",
+});
+
 const actors = [
   {
-    id: 1,
     name: "Robert Downey Jr.",
     birthYear: 1965,
     totalFilms: 3,
@@ -9,7 +16,6 @@ const actors = [
     movies: ["Iron Man", "Avengers: Endgame", "Sherlock Holmes"],
   },
   {
-    id: 2,
     name: "Scarlett Johansson",
     birthYear: 1984,
     totalFilms: 3,
@@ -18,7 +24,6 @@ const actors = [
     movies: ["Lucy", "Black Widow", "Avengers: Endgame"],
   },
   {
-    id: 3,
     name: "Tom Holland",
     birthYear: 1996,
     totalFilms: 3,
@@ -27,7 +32,6 @@ const actors = [
     movies: ["Spider-Man: Homecoming", "No Way Home", "Uncharted"],
   },
   {
-    id: 4,
     name: "Chris Evans",
     birthYear: 1981,
     totalFilms: 3,
@@ -36,7 +40,6 @@ const actors = [
     movies: ["Captain America", "Avengers", "Knives Out"],
   },
   {
-    id: 5,
     name: "Emma Watson",
     birthYear: 1990,
     totalFilms: 3,
@@ -45,4 +48,8 @@ const actors = [
     movies: ["Harry Potter", "Beauty and the Beast", "Little Women"],
   },
 ];
-module.exports = actors;
+
+const connection = mongoose.connect(process.env.MONGODB_URI);
+await actor.deleteMany({});
+await actor.insertMany(actors);
+export default actors;

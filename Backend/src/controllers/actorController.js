@@ -1,5 +1,5 @@
-const actors = require("../../data/actors");
-const movies = require("../../data/movies");
+import Actor from "../models/actorModel.js";
+import movies from "../../data/movies.js";
 
 const getActors = (req, res) => {
   res.json(actors);
@@ -85,10 +85,4 @@ const getCostars = (req, res) => {
   res.json(costars);
 };
 
-module.exports = {
-  getActors,
-  addActor,
-  deleteActor,
-  getActorMovies,
-  getCostars,
-};
+export { getActors, addActor, deleteActor, getActorMovies, getCostars };

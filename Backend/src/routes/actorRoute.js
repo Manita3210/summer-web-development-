@@ -1,18 +1,18 @@
-const express = require("express");
+import express from "express";
 
 const router = express.Router();
-const {
+import {
   actorRules,
   handleActorValidation,
-} = require("../validators/actorValidator");
+} from "../validators/actorValidator.js";
 
-const {
+import {
   getActors,
   addActor,
   deleteActor,
   getActorMovies,
   getCostars,
-} = require("../controllers/actorController");
+} from "../controllers/actorController.js";
 
 router.get("/", getActors);
 
@@ -24,4 +24,4 @@ router.get("/:id/movies", getActorMovies);
 
 router.get("/:id/costars", getCostars);
 
-module.exports = router;
+export default router;

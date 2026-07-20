@@ -1,4 +1,4 @@
-const { body, validationResult } = require("express-validator");
+import { body, validationResult } from "express-validator";
 
 const actorRules = [
   body("name")
@@ -23,7 +23,4 @@ const handleActorValidation = (req, res, next) => {
   next();
 };
 
-module.exports = {
-  actorRules,
-  handleActorValidation,
-};
+export { actorRules, handleActorValidation };
