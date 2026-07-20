@@ -1,14 +1,14 @@
-const actor = require("../../data/actor.js");
+import actor from "../../data/actor.js";
 
-async function getAll() {
+export async function getAll() {
   return actor.find();
 }
 
-async function add(actorData) {
+export async function add(actorData) {
   return await actor.create(actorData);
 }
 
-async function update(id, updates) {
+export async function update(id, updates) {
   const updatedActor = await actor.findByIdAndUpdate(id, updates, {
     new: true,
     runValidators: true,
@@ -16,13 +16,6 @@ async function update(id, updates) {
   return updatedActor;
 }
 
-async function deleteActor(id) {
+export async function deleteActor(id) {
   return await actor.findByIdAndDelete(id);
 }
-
-module.exports = {
-  getAll,
-  add,
-  update,
-  deleteActor,
-};
