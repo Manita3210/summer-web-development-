@@ -2,7 +2,7 @@ import * as actorModel from "../models/actorModel.js";
 import movie from "../../data/movie.js";
 
 export const getActors = async (req, res) => {
-  const actors = await actorModel.getAll();
+  const actors = await actorModel.getAll(req.query.search);
   res.json(actors);
 };
 

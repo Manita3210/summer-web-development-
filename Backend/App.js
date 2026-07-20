@@ -7,6 +7,8 @@ import dbConnection from "./src/config/db.js";
 import actorRoutes from "./src/routes/actorRoute.js";
 import movieRoutes from "./src/routes/movieRoute.js";
 
+import dashboardRoutes from "./src/routes/dashboardRoute.js";
+
 dotenv.config();
 
 dbConnection();
@@ -20,6 +22,8 @@ app.use(cors());
 
 app.use("/api/actors", actorRoutes);
 app.use("/api/movies", movieRoutes);
+
+app.use("/api/dashboard", dashboardRoutes);
 
 app.get("/", (req, res) => {
   res.send("Backend is running");

@@ -6,6 +6,7 @@ import ActorDetail from "./pages/ActorDetail";
 import AddActor from "./pages/AddActor";
 import AddMovie from "./pages/AddMovie";
 import api from "./api/axios";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   const [actors, setActors] = useState([]);
@@ -16,8 +17,8 @@ function App() {
     fetchMovies();
   }, []);
 
-  const fetchActors = async () => {
-    const res = await api.get("/actors");
+  const fetchActors = async (search = "") => {
+    const res = await api.get("/actors", { params: { search } });
     setActors(res.data);
   };
 
@@ -53,6 +54,17 @@ function App() {
         path="/add-movie"
         element={<AddMovie actors={actors} addMovie={addMovie} />}
       />
+      <Route
+        path="/"
+        element={
+          <ActorGrid
+            actors={actors}
+            deleteActor={deleteActor}
+            onSearch={fetchActors}
+          />
+        }
+      />
+      <Route path="/dashboard" element={<Dashboard />} />
     </Routes>
   );
 }

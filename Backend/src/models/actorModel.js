@@ -1,6 +1,9 @@
 import actor from "../../data/actor.js";
 
-export async function getAll() {
+export async function getAll(search) {
+  if (search) {
+    return actor.find({ name: { $regex: search, $options: "i" } });
+  }
   return actor.find();
 }
 
