@@ -1,32 +1,44 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 
 import ActorGrid from "./components/ActorGrid";
 import ActorDetail from "./pages/ActorDetail";
 import AddActor from "./pages/AddActor";
 import AddMovie from "./pages/AddMovie";
-
-import actorsData from "./data/actors";
-import moviesData from "./data/movies";
+import api from "./api/axios";
 
 function App() {
-  const [actors, setActors] = useState(actorsData);
-  const [movies, setMovies] = useState(moviesData);
+  const [actors, setActors] = useState([]);
+  const [movies, setMovies] = useState([]);
 
-  const addActor = (newActor) => {
-    setActors([...actors, newActor]);
+  useEffect(() => {
+    fetchActors();
+    fetchMovies();
+  }, []);
+
+  const fetchActors = async () => {
+    const res = await api.get("/actors");
+    setActors(res.data);
   };
 
-  const addMovie = (newMovie) => {
-    setMovies([...movies, newMovie]);
+  const fetchMovies = async () => {
+    const res = await api.get("/movies");
+    setMovies(res.data);
   };
 
-  const deleteActor = (id) => {
-    setActors(actors.filter((actor) => actor.id !== id));
+  const addActor = async (newActor) => {
+    await api.post("/actors", newActor);
+    fetchActors();
   };
 
-  const deleteMovie = (id) => {
-    setMovies(movies.filter((movie) => movie.id !== id));
+  const addMovie = async (newMovie) => {
+    await api.post("/movies", newMovie);
+    fetchMovies();
+  };
+
+  const deleteActor = async (id) => {
+    await api.delete(`/actors/${id}`);
+    fetchActors();
   };
 
   return (
@@ -35,14 +47,8 @@ function App() {
         path="/"
         element={<ActorGrid actors={actors} deleteActor={deleteActor} />}
       />
-
-      <Route
-        path="/actor/:id"
-        element={<ActorDetail actors={actors} movies={movies} />}
-      />
-
+      <Route path="/actor/:id" element={<ActorDetail actors={actors} />} />
       <Route path="/add" element={<AddActor addActor={addActor} />} />
-
       <Route
         path="/add-movie"
         element={<AddMovie actors={actors} addMovie={addMovie} />}

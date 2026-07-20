@@ -22,9 +22,9 @@ function ActorGrid({ actors, deleteActor }) {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {actors.map((actor) => (
-          <div key={actor.id}>
+          <div key={actor._id}>
             <ActorCard
-              id={actor.id}
+              id={actor._id}
               name={actor.name}
               birthYear={actor.birthYear}
               totalFilms={actor.totalFilms}
@@ -32,7 +32,7 @@ function ActorGrid({ actors, deleteActor }) {
             />
 
             <button
-              onClick={() => deleteActor(actor.id)}
+              onClick={() => deleteActor(actor._id)}
               className="mt-3 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition block mx-auto"
             >
               Delete Actor
