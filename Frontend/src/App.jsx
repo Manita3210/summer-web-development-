@@ -5,7 +5,7 @@ import ActorGrid from "./components/ActorGrid";
 import ActorDetail from "./pages/ActorDetail";
 import AddActor from "./pages/AddActor";
 import AddMovie from "./pages/AddMovie";
-import api from "./api/axios";
+import api from "./api/api";
 import Dashboard from "./pages/Dashboard";
 
 function App() {

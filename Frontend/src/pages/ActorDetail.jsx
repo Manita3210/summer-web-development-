@@ -1,7 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import FilmographyList from "../components/FilmographyList";
-import api from "../api/axios";
+import api from "../api/api";
 
 function ActorDetail({ actors }) {
   const { id } = useParams();
