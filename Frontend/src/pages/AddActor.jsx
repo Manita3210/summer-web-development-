@@ -9,6 +9,17 @@ function AddActor({ addActor }) {
   const [bio, setBio] = useState("");
   const [photo, setPhoto] = useState("");
 
+  const handlePhotoChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setPhoto(reader.result); // base64 data URL, stored directly as the photo string
+    };
+    reader.readAsDataURL(file);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     await addActor({
@@ -88,14 +99,31 @@ function AddActor({ addActor }) {
 
         <div>
           <label className="block mb-1 text-sm font-medium text-neutral-700">
-            Photo (URL or filename)
+            Photo
           </label>
-          <input
-            className="border border-neutral-300 rounded-lg p-2.5 w-full focus:outline-none focus:ring-2 focus:ring-amber-400"
-            value={photo}
-            onChange={(e) => setPhoto(e.target.value)}
-            required
-          />
+
+          <div className="flex items-center gap-4">
+            {photo && (
+              <img
+                src={photo}
+                alt="Preview"
+                className="w-16 h-16 rounded-full object-cover ring-2 ring-amber-300"
+              />
+            )}
+
+            <label className="flex-1 cursor-pointer">
+              <span className="block text-center border border-neutral-300 rounded-lg p-2.5 text-sm text-neutral-600 hover:bg-neutral-50 transition">
+                Choose file
+              </span>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handlePhotoChange}
+                className="hidden"
+                required={!photo}
+              />
+            </label>
+          </div>
         </div>
 
         <div className="flex gap-3 pt-2">
