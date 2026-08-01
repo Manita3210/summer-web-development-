@@ -1,5 +1,4 @@
 import ActorCard from "./ActorCard";
-import { Link } from "react-router-dom";
 import { useState } from "react";
 
 function ActorGrid({ actors, deleteActor, onSearch }) {
@@ -11,62 +10,64 @@ function ActorGrid({ actors, deleteActor, onSearch }) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 p-10">
-      <h1 className="text-5xl font-bold text-center text-blue-700 mb-12">
-        Actor Profile Database
-      </h1>
+    <div className="bg-gradient-to-b from-neutral-100 to-neutral-200 min-h-[calc(100vh-72px)] px-6 py-12">
+      <div className="max-w-6xl mx-auto">
+        <div className="text-center mb-10">
+          <h1
+            className="text-4xl md:text-5xl font-bold text-neutral-900"
+            style={{
+              fontFamily: "'Bebas Neue', sans-serif",
+              letterSpacing: "0.02em",
+            }}
+          >
+            Actor Profile Database
+          </h1>
+          <p className="text-neutral-500 mt-2">
+            Browse actors, their films, and frequent collaborators.
+          </p>
+        </div>
 
-      <div className="flex justify-center gap-4 mb-8 flex-wrap">
-        <Link to="/add">
-          <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-            Add Actor
-          </button>
-        </Link>
-        <Link to="/add-movie">
-          <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-            Add Movie
-          </button>
-        </Link>
-        <Link to="/dashboard">
-          <button className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
-            Dashboard
-          </button>
-        </Link>
-      </div>
-
-      <form onSubmit={handleSearch} className="flex justify-center gap-2 mb-8">
-        <input
-          className="border rounded-lg p-2 w-72"
-          placeholder="Search actors by name..."
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-        />
-        <button
-          type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+        <form
+          onSubmit={handleSearch}
+          className="flex justify-center gap-2 mb-12"
         >
-          Search
-        </button>
-      </form>
+          <input
+            className="border border-neutral-300 rounded-lg px-4 py-2 w-72 bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-400"
+            placeholder="Search actors by name..."
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+          <button
+            type="submit"
+            className="bg-amber-500 text-neutral-900 font-medium px-5 py-2 rounded-lg hover:bg-amber-400 transition shadow-sm"
+          >
+            Search
+          </button>
+        </form>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {actors.map((actor) => (
-          <div key={actor._id}>
-            <ActorCard
-              id={actor._id}
-              name={actor.name}
-              birthYear={actor.birthYear}
-              totalFilms={actor.totalFilms}
-              photo={actor.photo}
-            />
-            <button
-              onClick={() => deleteActor(actor._id)}
-              className="mt-3 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition block mx-auto"
-            >
-              Delete Actor
-            </button>
+        {actors.length === 0 ? (
+          <p className="text-center text-neutral-500">No actors found.</p>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {actors.map((actor) => (
+              <div key={actor._id} className="flex flex-col items-center">
+                <ActorCard
+                  id={actor._id}
+                  name={actor.name}
+                  birthYear={actor.birthYear}
+                  totalFilms={actor.totalFilms}
+                  photo={actor.photo}
+                />
+                <button
+                  onClick={() => deleteActor(actor._id)}
+                  className="mt-3 bg-rose-600 text-white px-4 py-2 rounded-lg hover:bg-rose-700 transition text-sm font-medium"
+                >
+                  Delete Actor
+                </button>
+              </div>
+            ))}
           </div>
-        ))}
+        )}
       </div>
     </div>
   );

@@ -22,67 +22,99 @@ function AddActor({ addActor }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-md mx-auto mt-10 space-y-4">
-      <div>
-        <label className="block mb-1 font-medium">Actor Name</label>
-        <input
-          className="border rounded-lg p-2 w-full"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-      </div>
-      <div>
-        <label className="block mb-1 font-medium">Birth Year</label>
-        <input
-          type="number"
-          className="border rounded-lg p-2 w-full"
-          value={birthYear}
-          onChange={(e) => setBirthYear(e.target.value)}
-        />
-      </div>
-      <div>
-        <label className="block mb-1 font-medium">Total Films</label>
-        <input
-          type="number"
-          className="border rounded-lg p-2 w-full"
-          value={totalFilms}
-          onChange={(e) => setTotalFilms(e.target.value)}
-        />
-      </div>
-      <div>
-        <label className="block mb-1 font-medium">Bio</label>
-        <textarea
-          className="border rounded-lg p-2 w-full"
-          value={bio}
-          onChange={(e) => setBio(e.target.value)}
-        />
-      </div>
-      <div>
-        <label className="block mb-1 font-medium">
-          Photo (URL or filename)
-        </label>
-        <input
-          className="border rounded-lg p-2 w-full"
-          value={photo}
-          onChange={(e) => setPhoto(e.target.value)}
-        />
-      </div>
-      <div className="flex gap-4">
-        <button
-          type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+    <div className="min-h-[calc(100vh-72px)] bg-neutral-100 flex items-center justify-center px-6 py-12">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white rounded-2xl shadow-lg p-8 w-full max-w-md space-y-5"
+      >
+        <h1
+          className="text-3xl font-bold text-neutral-900 mb-2"
+          style={{ fontFamily: "'Bebas Neue', sans-serif" }}
         >
           Add Actor
-        </button>
-        <button
-          type="button"
-          onClick={() => navigate("/")}
-          className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-700"
-        >
-          Cancel
-        </button>
-      </div>
-    </form>
+        </h1>
+
+        <div>
+          <label className="block mb-1 text-sm font-medium text-neutral-700">
+            Actor Name
+          </label>
+          <input
+            className="border border-neutral-300 rounded-lg p-2.5 w-full focus:outline-none focus:ring-2 focus:ring-amber-400"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="block mb-1 text-sm font-medium text-neutral-700">
+              Birth Year
+            </label>
+            <input
+              type="number"
+              className="border border-neutral-300 rounded-lg p-2.5 w-full focus:outline-none focus:ring-2 focus:ring-amber-400"
+              value={birthYear}
+              onChange={(e) => setBirthYear(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label className="block mb-1 text-sm font-medium text-neutral-700">
+              Total Films
+            </label>
+            <input
+              type="number"
+              className="border border-neutral-300 rounded-lg p-2.5 w-full focus:outline-none focus:ring-2 focus:ring-amber-400"
+              value={totalFilms}
+              onChange={(e) => setTotalFilms(e.target.value)}
+              required
+            />
+          </div>
+        </div>
+
+        <div>
+          <label className="block mb-1 text-sm font-medium text-neutral-700">
+            Bio
+          </label>
+          <textarea
+            className="border border-neutral-300 rounded-lg p-2.5 w-full focus:outline-none focus:ring-2 focus:ring-amber-400"
+            rows={3}
+            value={bio}
+            onChange={(e) => setBio(e.target.value)}
+            required
+          />
+        </div>
+
+        <div>
+          <label className="block mb-1 text-sm font-medium text-neutral-700">
+            Photo (URL or filename)
+          </label>
+          <input
+            className="border border-neutral-300 rounded-lg p-2.5 w-full focus:outline-none focus:ring-2 focus:ring-amber-400"
+            value={photo}
+            onChange={(e) => setPhoto(e.target.value)}
+            required
+          />
+        </div>
+
+        <div className="flex gap-3 pt-2">
+          <button
+            type="submit"
+            className="flex-1 bg-amber-500 text-neutral-900 font-semibold px-4 py-2.5 rounded-lg hover:bg-amber-400 transition"
+          >
+            Add Actor
+          </button>
+          <button
+            type="button"
+            onClick={() => navigate("/")}
+            className="flex-1 bg-neutral-200 text-neutral-700 font-semibold px-4 py-2.5 rounded-lg hover:bg-neutral-300 transition"
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
   );
 }
 
