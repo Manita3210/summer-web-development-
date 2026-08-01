@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 
+import Navbar from "./components/Navbar";
 import ActorGrid from "./components/ActorGrid";
 import ActorDetail from "./pages/ActorDetail";
 import AddActor from "./pages/AddActor";
@@ -43,29 +44,28 @@ function App() {
   };
 
   return (
-    <Routes>
-      <Route
-        path="/"
-        element={<ActorGrid actors={actors} deleteActor={deleteActor} />}
-      />
-      <Route path="/actor/:id" element={<ActorDetail actors={actors} />} />
-      <Route path="/add" element={<AddActor addActor={addActor} />} />
-      <Route
-        path="/add-movie"
-        element={<AddMovie actors={actors} addMovie={addMovie} />}
-      />
-      <Route
-        path="/"
-        element={
-          <ActorGrid
-            actors={actors}
-            deleteActor={deleteActor}
-            onSearch={fetchActors}
-          />
-        }
-      />
-      <Route path="/dashboard" element={<Dashboard />} />
-    </Routes>
+    <div className="min-h-screen bg-neutral-100">
+      <Navbar />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <ActorGrid
+              actors={actors}
+              deleteActor={deleteActor}
+              onSearch={fetchActors}
+            />
+          }
+        />
+        <Route path="/actor/:id" element={<ActorDetail actors={actors} />} />
+        <Route path="/add" element={<AddActor addActor={addActor} />} />
+        <Route
+          path="/add-movie"
+          element={<AddMovie actors={actors} addMovie={addMovie} />}
+        />
+        <Route path="/dashboard" element={<Dashboard />} />
+      </Routes>
+    </div>
   );
 }
 

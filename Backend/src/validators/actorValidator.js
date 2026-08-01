@@ -9,7 +9,7 @@ const actorRules = [
 
   body("totalFilms")
     .notEmpty()
-    .isInt({ min: 100 })
+    .isInt({ min: 1 })
     .withMessage("Total film is required, must be in positive integer"),
 ];
 
