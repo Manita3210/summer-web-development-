@@ -7,7 +7,7 @@ export const getActors = async (req, res) => {
 };
 
 export const addActor = async (req, res) => {
-  const newActor = await actorModel.add(req.body);
+  const newActor = await actorModel.add({ ...req.body, addedBy: req.userId });
   res
     .status(201)
     .json({ message: "Actor added successfully", actor: newActor });
@@ -18,11 +18,25 @@ export const getMyActors = async (req, res) => {
   res.json(actors);
 };
 
+// export const deleteActor = async (req, res) => {
+//   const deletedActor = await actorModel.deleteActor(req.params.id);
+//   if (!deletedActor) {
+//     return res.status(404).json({ message: "Actor not found" });
+//   }
+//   res.json({ message: "Actor deleted successfully", actor: deletedActor });
+// };
+
 export const deleteActor = async (req, res) => {
-  const deletedActor = await actorModel.deleteActor(req.params.id);
-  if (!deletedActor) {
+  const existing = await actorModel.getById(req.params.id);
+  if (!existing) {
     return res.status(404).json({ message: "Actor not found" });
   }
+  if (existing.addedBy?.toString() !== req.userId) {
+    return res
+      .status(403)
+      .json({ message: "You can only delete actors you added" });
+  }
+  const deletedActor = await actorModel.deleteActor(req.params.id);
   res.json({ message: "Actor deleted successfully", actor: deletedActor });
 };
 

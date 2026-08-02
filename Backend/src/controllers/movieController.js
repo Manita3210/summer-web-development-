@@ -6,7 +6,7 @@ export const getMovies = async (req, res) => {
 };
 
 export const addMovie = async (req, res) => {
-  const newMovie = await movieModel.add(req.body);
+  const newMovie = await movieModel.add({ ...req.body, addedBy: req.userId });
   res
     .status(201)
     .json({ message: "Movie added successfully", movie: newMovie });

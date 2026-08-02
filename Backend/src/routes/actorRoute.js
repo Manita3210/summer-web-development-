@@ -20,9 +20,9 @@ router.get("/", getActors);
 
 router.get("/mine", protect, getMyActors);
 
-router.post("/", actorRules, handleActorValidation, addActor);
+router.post("/", protect, actorRules, handleActorValidation, addActor);
 
-router.delete("/:id", deleteActor);
+router.delete("/:id", protect, deleteActor);
 
 router.get("/:id/movies", getActorMovies);
 

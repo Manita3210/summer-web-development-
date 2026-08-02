@@ -7,6 +7,10 @@ export async function getAll(search) {
   return actor.find();
 }
 
+export async function getById(id) {
+  return actor.findById(id);
+}
+
 export async function add(actorData) {
   return await actor.create(actorData);
 }
