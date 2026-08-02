@@ -13,6 +13,11 @@ export const addActor = async (req, res) => {
     .json({ message: "Actor added successfully", actor: newActor });
 };
 
+export const getMyActors = async (req, res) => {
+  const actors = await actorModel.getMine(req.userId);
+  res.json(actors);
+};
+
 export const deleteActor = async (req, res) => {
   const deletedActor = await actorModel.deleteActor(req.params.id);
   if (!deletedActor) {

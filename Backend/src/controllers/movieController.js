@@ -12,6 +12,11 @@ export const addMovie = async (req, res) => {
     .json({ message: "Movie added successfully", movie: newMovie });
 };
 
+export const getMyMovies = async (req, res) => {
+  const movies = await movieModel.getMine(req.userId);
+  res.json(movies);
+};
+
 export const deleteMovie = async (req, res) => {
   const deletedMovie = await movieModel.deleteMovie(req.params.id);
   if (!deletedMovie) {

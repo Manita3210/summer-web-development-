@@ -8,6 +8,9 @@ import AddActor from "./pages/AddActor";
 import AddMovie from "./pages/AddMovie";
 import api from "./api/api";
 import Dashboard from "./pages/Dashboard";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import MyContributions from "./pages/MyContributions";
 
 function App() {
   const [actors, setActors] = useState([]);
@@ -64,6 +67,9 @@ function App() {
           element={<AddMovie actors={actors} addMovie={addMovie} />}
         />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/my-contributions" element={<MyContributions />} />
       </Routes>
     </div>
   );

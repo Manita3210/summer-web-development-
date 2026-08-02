@@ -8,6 +8,10 @@ export async function add(movieData) {
   return await movie.create(movieData);
 }
 
+export async function getMine(userId) {
+  return movie.find({ addedBy: userId }).populate("cast", "name photo");
+}
+
 export async function deleteMovie(id) {
   return await movie.findByIdAndDelete(id);
 }

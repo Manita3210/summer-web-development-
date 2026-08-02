@@ -1,4 +1,5 @@
 import express from "express";
+import { protect } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 import {
@@ -12,9 +13,12 @@ import {
   deleteActor,
   getActorMovies,
   getCostars,
+  getMyActors,
 } from "../controllers/actorController.js";
 
 router.get("/", getActors);
+
+router.get("/mine", protect, getMyActors);
 
 router.post("/", actorRules, handleActorValidation, addActor);
 

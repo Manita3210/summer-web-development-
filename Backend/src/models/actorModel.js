@@ -22,3 +22,7 @@ export async function update(id, updates) {
 export async function deleteActor(id) {
   return await actor.findByIdAndDelete(id);
 }
+
+export async function getMine(userId) {
+  return actor.find({ addedBy: userId });
+}
