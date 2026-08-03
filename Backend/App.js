@@ -9,6 +9,7 @@ import actorRoutes from "./src/routes/actorRoute.js";
 import movieRoutes from "./src/routes/movieRoute.js";
 import dashboardRoutes from "./src/routes/dashboardRoute.js";
 import authRoutes from "./src/routes/authRoute.js";
+import aiRouter from "./src/routes/aiRoute.js";
 
 dotenv.config();
 dbConnection();
@@ -31,6 +32,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/actors", actorRoutes);
 app.use("/api/movies", movieRoutes);
 app.use("/api/dashboard", dashboardRoutes);
+app.use("/ai", aiRouter);
 
 app.get("/", (req, res) => {
   res.send("Backend is running");
