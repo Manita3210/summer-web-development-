@@ -3,10 +3,24 @@ import { useState } from "react";
 
 function ActorGrid({ actors, deleteActor, onSearch }) {
   const [query, setQuery] = useState("");
+  const [deleteError, setDeleteError] = useState("");
 
   const handleSearch = (e) => {
     e.preventDefault();
     onSearch(query);
+  };
+
+  const handleDelete = async (id) => {
+    setDeleteError("");
+    try {
+      await deleteActor(id);
+    } catch (err) {
+      if (err.response?.status === 403) {
+        setDeleteError(
+          "Permission denied. You can only delete your own actor profiles.",
+        );
+      }
+    }
   };
 
   return (
@@ -45,6 +59,12 @@ function ActorGrid({ actors, deleteActor, onSearch }) {
           </button>
         </form>
 
+        {deleteError && (
+          <div className="rounded-lg border border-red-300 bg-red-50 p-3 text-sm text-red-700 max-w-2xl mx-auto mb-8">
+            {deleteError}
+          </div>
+        )}
+
         {actors.length === 0 ? (
           <p className="text-center text-neutral-500">No actors found.</p>
         ) : (
@@ -59,7 +79,7 @@ function ActorGrid({ actors, deleteActor, onSearch }) {
                   photo={actor.photo}
                 />
                 <button
-                  onClick={() => deleteActor(actor._id)}
+                  onClick={() => handleDelete(actor._id)}
                   className="mt-3 bg-rose-600 text-white px-4 py-2 rounded-lg hover:bg-rose-700 transition text-sm font-medium"
                 >
                   Delete Actor
