@@ -1,5 +1,5 @@
 import express from "express";
-import dotenv from "dotenv";
+
 import cors from "cors";
 import cookieParser from "cookie-parser";
 
@@ -11,7 +11,6 @@ import dashboardRoutes from "./src/routes/dashboardRoute.js";
 import authRoutes from "./src/routes/authRoute.js";
 import aiRouter from "./src/routes/aiRoute.js";
 
-dotenv.config();
 dbConnection();
 
 const app = express();
@@ -32,7 +31,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/actors", actorRoutes);
 app.use("/api/movies", movieRoutes);
 app.use("/api/dashboard", dashboardRoutes);
-app.use("/ai", aiRouter);
+app.use("/api/ai", aiRouter);
 
 app.get("/", (req, res) => {
   res.send("Backend is running");

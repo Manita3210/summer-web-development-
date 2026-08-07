@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { generateBio } from "../api/api";
 
 function AddActor({ addActor }) {
   const navigate = useNavigate();
@@ -8,6 +9,9 @@ function AddActor({ addActor }) {
   const [totalFilms, setTotalFilms] = useState("");
   const [bio, setBio] = useState("");
   const [photo, setPhoto] = useState("");
+  const [filmList, setFilmList] = useState("");
+  const [bioLoading, setBioLoading] = useState(false);
+  const [bioError, setBioError] = useState("");
 
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];
@@ -15,9 +19,28 @@ function AddActor({ addActor }) {
 
     const reader = new FileReader();
     reader.onloadend = () => {
-      setPhoto(reader.result); // base64 data URL, stored directly as the photo string
+      setPhoto(reader.result);
     };
     reader.readAsDataURL(file);
+  };
+
+  const handleGenerateBio = async () => {
+    if (!name || !filmList) {
+      setBioError("Enter the actor's name and known films first.");
+      return;
+    }
+    setBioError("");
+    setBioLoading(true);
+    try {
+      const res = await generateBio(name, filmList);
+      setBio(res.data.data);
+    } catch (err) {
+      setBioError(
+        err.response?.data?.error || "Couldn't generate a bio. Try again.",
+      );
+    } finally {
+      setBioLoading(false);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -86,8 +109,28 @@ function AddActor({ addActor }) {
 
         <div>
           <label className="block mb-1 text-sm font-medium text-neutral-700">
-            Bio
+            Known Films (comma separated, used to generate the bio)
           </label>
+          <input
+            className="border border-neutral-300 rounded-lg p-2.5 w-full focus:outline-none focus:ring-2 focus:ring-amber-400"
+            value={filmList}
+            onChange={(e) => setFilmList(e.target.value)}
+            placeholder="Iron Man, Avengers: Endgame, Sherlock Holmes"
+          />
+        </div>
+
+        <div>
+          <div className="flex items-center justify-between mb-1">
+            <label className="text-sm font-medium text-neutral-700">Bio</label>
+            <button
+              type="button"
+              onClick={handleGenerateBio}
+              disabled={bioLoading}
+              className="text-xs font-semibold text-amber-600 hover:text-amber-500 disabled:opacity-50"
+            >
+              {bioLoading ? "Generating..." : "Generate Bio"}
+            </button>
+          </div>
           <textarea
             className="border border-neutral-300 rounded-lg p-2.5 w-full focus:outline-none focus:ring-2 focus:ring-amber-400"
             rows={3}
@@ -95,6 +138,7 @@ function AddActor({ addActor }) {
             onChange={(e) => setBio(e.target.value)}
             required
           />
+          {bioError && <p className="text-xs text-red-500 mt-1">{bioError}</p>}
         </div>
 
         <div>

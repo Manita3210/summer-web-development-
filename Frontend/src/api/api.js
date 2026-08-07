@@ -8,3 +8,7 @@ const api = axios.create({
 });
 
 export default api;
+
+export function generateBio(name, filmList) {
+  return api.post("/ai/write-bio", { name, filmList });
+}

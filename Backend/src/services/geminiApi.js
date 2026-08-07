@@ -1,4 +1,4 @@
-import { GoogleGenAI } from "@google/genai";
+import Groq from "groq-sdk";
 
 const SystemInstruction = `
 You are the official AI assistant for ActorDB. Your ONLY job is to answer questions about actors, movies, filmographies, and other information available in the ActorDB database.
@@ -11,16 +11,29 @@ RULES:
 5. Keep responses concise, accurate, and professional. Do not include unnecessary introductions or explanations.
 `;
 
-const ai = new GoogleGenAI({
-  apiKey: process.env.GEMINI_API_KEY,
+const groq = new Groq({
+  apiKey: process.env.GROQ_API_KEY,
 });
 
 export const generateAIResponse = async (prompt) => {
-  const interaction = await ai.interactions.create({
-    model: "gemini-3.6-flash",
-    input: prompt,
-    system_instruction: SystemInstruction,
+  const completion = await groq.chat.completions.create({
+    model: "llama-3.3-70b-versatile",
+    messages: [
+      { role: "system", content: SystemInstruction },
+      { role: "user", content: prompt },
+    ],
   });
 
-  return interaction.output_text;
+  return completion.choices[0].message.content;
+};
+
+export const generateBio = async (name, filmList) => {
+  const prompt = `Write a concise, engaging 3-sentence biography for an actor known for these films: ${filmList}. The actor's name is ${name}.`;
+
+  const completion = await groq.chat.completions.create({
+    model: "llama-3.3-70b-versatile",
+    messages: [{ role: "user", content: prompt }],
+  });
+
+  return completion.choices[0].message.content;
 };
