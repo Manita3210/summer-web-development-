@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
+import { useState, useEffect, useLayoutEffect, useRef } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
 import ActorGrid from "./components/ActorGrid";
@@ -13,8 +13,10 @@ import Signup from "./pages/Signup";
 import MyContributions from "./pages/MyContributions";
 
 function App() {
+  const location = useLocation();
   const [actors, setActors] = useState([]);
   const [movies, setMovies] = useState([]);
+  const allActorsRef = useRef([]);
 
   useEffect(() => {
     fetchActors();
@@ -22,9 +24,21 @@ function App() {
   }, []);
 
   const fetchActors = async (search = "") => {
+    if (!search) {
+      setActors(allActorsRef.current);
+    }
     const res = await api.get("/actors", { params: { search } });
     setActors(res.data);
+    if (!search) {
+      allActorsRef.current = res.data;
+    }
   };
+
+  useLayoutEffect(() => {
+    if (location.pathname === "/") {
+      fetchActors("");
+    }
+  }, [location]);
 
   const fetchMovies = async () => {
     const res = await api.get("/movies");
@@ -54,6 +68,7 @@ function App() {
           path="/"
           element={
             <ActorGrid
+              key={location.key}
               actors={actors}
               deleteActor={deleteActor}
               onSearch={fetchActors}

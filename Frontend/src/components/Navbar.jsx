@@ -50,20 +50,20 @@ function Navbar() {
           <NavLink to="/" end className={linkClass}>
             Home
           </NavLink>
-          <NavLink to="/add" className={linkClass}>
-            Add Actor
-          </NavLink>
-          <NavLink to="/add-movie" className={linkClass}>
-            Add Movie
-          </NavLink>
-          <NavLink to="/dashboard" className={linkClass}>
-            Dashboard
-          </NavLink>
 
           {user ? (
             <>
+              <NavLink to="/add" className={linkClass}>
+                Add Actor
+              </NavLink>
+              <NavLink to="/add-movie" className={linkClass}>
+                Add Movie
+              </NavLink>
               <NavLink to="/my-contributions" className={linkClass}>
                 My Contributions
+              </NavLink>
+              <NavLink to="/dashboard" className={linkClass}>
+                Dashboard
               </NavLink>
               <button
                 onClick={handleLogout}
@@ -80,6 +80,9 @@ function Navbar() {
             </>
           ) : (
             <>
+              <NavLink to="/dashboard" className={linkClass}>
+                Dashboard
+              </NavLink>
               <NavLink to="/login" className={linkClass}>
                 Login
               </NavLink>

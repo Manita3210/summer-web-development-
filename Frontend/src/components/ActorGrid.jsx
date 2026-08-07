@@ -3,11 +3,21 @@ import { useState } from "react";
 
 function ActorGrid({ actors, deleteActor, onSearch }) {
   const [query, setQuery] = useState("");
+  const [activeSearch, setActiveSearch] = useState("");
   const [deleteError, setDeleteError] = useState("");
+  const storedUser = JSON.parse(localStorage.getItem("user") || "null");
+  const currentUserId = storedUser?._id;
 
   const handleSearch = (e) => {
     e.preventDefault();
+    setActiveSearch(query.trim());
     onSearch(query);
+  };
+
+  const handleViewAllActors = () => {
+    setQuery("");
+    setActiveSearch("");
+    onSearch("");
   };
 
   const handleDelete = async (id) => {
@@ -36,14 +46,11 @@ function ActorGrid({ actors, deleteActor, onSearch }) {
           >
             Actor Profile Database
           </h1>
-          <p className="text-neutral-500 mt-2">
-            Browse actors, their films, and frequent collaborators.
-          </p>
         </div>
 
         <form
           onSubmit={handleSearch}
-          className="flex justify-center gap-2 mb-12"
+          className="flex justify-center items-center gap-2 mb-12"
         >
           <input
             className="border border-neutral-300 rounded-lg px-4 py-2 w-72 bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-400"
@@ -59,6 +66,24 @@ function ActorGrid({ actors, deleteActor, onSearch }) {
           </button>
         </form>
 
+        {activeSearch && (
+          <div className="text-center mb-8">
+            <p className="text-neutral-700 font-medium">
+              Showing results for{" "}
+              <span className="text-neutral-900 font-semibold">
+                "{activeSearch}"
+              </span>
+            </p>
+            <button
+              type="button"
+              onClick={handleViewAllActors}
+              className="mt-2 text-sm font-medium text-amber-500 hover:text-amber-400"
+            >
+              ← View All Actors
+            </button>
+          </div>
+        )}
+
         {deleteError && (
           <div className="rounded-lg border border-red-300 bg-red-50 p-3 text-sm text-red-700 max-w-2xl mx-auto mb-8">
             {deleteError}
@@ -69,23 +94,40 @@ function ActorGrid({ actors, deleteActor, onSearch }) {
           <p className="text-center text-neutral-500">No actors found.</p>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {actors.map((actor) => (
-              <div key={actor._id} className="flex flex-col items-center">
-                <ActorCard
-                  id={actor._id}
-                  name={actor.name}
-                  birthYear={actor.birthYear}
-                  totalFilms={actor.totalFilms}
-                  photo={actor.photo}
-                />
-                <button
-                  onClick={() => handleDelete(actor._id)}
-                  className="mt-3 bg-rose-600 text-white px-4 py-2 rounded-lg hover:bg-rose-700 transition text-sm font-medium"
-                >
-                  Delete Actor
-                </button>
-              </div>
-            ))}
+            {actors.map((actor) => {
+              const isOwned = Boolean(
+                currentUserId && actor.addedBy?.toString() === currentUserId,
+              );
+              return (
+                <div key={actor._id} className="flex flex-col items-center">
+                  <ActorCard
+                    id={actor._id}
+                    name={actor.name}
+                    birthYear={actor.birthYear}
+                    totalFilms={actor.totalFilms}
+                    photo={actor.photo}
+                  />
+                  {isOwned && (
+                    <>
+                      <span className="mt-3 text-xs font-medium bg-amber-100 text-amber-700 px-2.5 py-1 rounded-full">
+                        Your Contribution
+                      </span>
+                      <button
+                        onClick={() => handleDelete(actor._id)}
+                        className="mt-2 bg-rose-600 text-white px-4 py-2 rounded-lg hover:bg-rose-700 transition text-sm font-medium"
+                      >
+                        Delete Actor
+                      </button>
+                    </>
+                  )}
+                  {currentUserId && !isOwned && (
+                    <span className="mt-3 text-xs font-medium bg-neutral-200 text-neutral-600 px-2.5 py-1 rounded-full">
+                      Community Contribution
+                    </span>
+                  )}
+                </div>
+              );
+            })}
           </div>
         )}
       </div>
