@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { logoutUser, getMe } from "../api/authApi";
 
 const linkClass = ({ isActive }) =>
@@ -11,13 +11,14 @@ const linkClass = ({ isActive }) =>
 
 function Navbar() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [user, setUser] = useState(null);
 
   useEffect(() => {
     getMe()
       .then((res) => setUser(res.data.data))
       .catch(() => setUser(null));
-  }, []);
+  }, [location.pathname]);
 
   async function handleLogout() {
     try {
