@@ -53,3 +53,22 @@ export async function logoutUser(req, res) {
   res.clearCookie("jwt-token", cookieOptions);
   res.status(200).json({ message: "Logged out successfully" });
 }
+
+export async function getCurrentUser(req, res) {
+  try {
+    const user = await AuthModel.getUserById(req.userId);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    return res.status(200).json({
+      data: {
+        _id: user._id,
+        email: user.email,
+        name: user.name,
+        isAdmin: user.isAdmin,
+      },
+    });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+}

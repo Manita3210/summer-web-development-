@@ -16,3 +16,6 @@ export function registerUser(userData) {
 export function logoutUser() {
   return api.post("/logout");
 }
+export function getMe() {
+  return api.get("/me");
+}

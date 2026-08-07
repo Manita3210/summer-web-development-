@@ -13,3 +13,7 @@ export async function login({ email, password }) {
   const isValid = await bcrypt.compare(password, user.password);
   return isValid ? user : null;
 }
+
+export async function getUserById(id) {
+  return await User.findById(id);
+}

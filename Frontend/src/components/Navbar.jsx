@@ -1,5 +1,6 @@
+import { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { logoutUser } from "../api/authApi";
+import { logoutUser, getMe } from "../api/authApi";
 
 const linkClass = ({ isActive }) =>
   `px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
@@ -10,12 +11,24 @@ const linkClass = ({ isActive }) =>
 
 function Navbar() {
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem("user") || "null");
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    getMe()
+      .then((res) => setUser(res.data.data))
+      .catch(() => setUser(null));
+  }, []);
 
   async function handleLogout() {
-    await logoutUser();
-    localStorage.removeItem("user");
-    navigate("/login");
+    try {
+      await logoutUser();
+    } catch (err) {
+      console.error("Logout request failed:", err);
+    } finally {
+      localStorage.removeItem("user");
+      setUser(null);
+      navigate("/login");
+    }
   }
 
   return (
@@ -32,7 +45,7 @@ function Navbar() {
           <span>ActorDB</span>
         </NavLink>
 
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <NavLink to="/" end className={linkClass}>
             Home
           </NavLink>
@@ -57,6 +70,12 @@ function Navbar() {
               >
                 Logout
               </button>
+              <div
+                className="w-9 h-9 rounded-full bg-amber-500 text-neutral-900 font-bold flex items-center justify-center text-sm select-none"
+                title={user.name}
+              >
+                {user.name?.charAt(0).toUpperCase()}
+              </div>
             </>
           ) : (
             <>
