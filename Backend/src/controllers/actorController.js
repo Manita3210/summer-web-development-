@@ -7,7 +7,11 @@ export const getActors = async (req, res) => {
 };
 
 export const addActor = async (req, res) => {
-  const newActor = await actorModel.add({ ...req.body, addedBy: req.userId });
+  const actorData = { ...req.body };
+  if (req.file) {
+    actorData.photo = `data:${req.file.mimetype};base64,${req.file.buffer.toString("base64")}`;
+  }
+  const newActor = await actorModel.add({ ...actorData, addedBy: req.userId });
   res
     .status(201)
     .json({ message: "Actor added successfully", actor: newActor });

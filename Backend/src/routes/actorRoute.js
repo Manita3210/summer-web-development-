@@ -1,5 +1,6 @@
 import express from "express";
 import { protect } from "../middleware/authMiddleware.js";
+import upload from "../middleware/upload.js";
 
 const router = express.Router();
 import {
@@ -20,7 +21,14 @@ router.get("/", getActors);
 
 router.get("/mine", protect, getMyActors);
 
-router.post("/", protect, actorRules, handleActorValidation, addActor);
+router.post(
+  "/",
+  protect,
+  upload.single("photo"),
+  actorRules,
+  handleActorValidation,
+  addActor,
+);
 
 router.delete("/:id", protect, deleteActor);
 

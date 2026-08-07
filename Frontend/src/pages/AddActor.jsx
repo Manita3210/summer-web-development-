@@ -8,7 +8,8 @@ function AddActor({ addActor }) {
   const [birthYear, setBirthYear] = useState("");
   const [totalFilms, setTotalFilms] = useState("");
   const [bio, setBio] = useState("");
-  const [photo, setPhoto] = useState("");
+  const [photo, setPhoto] = useState(null);
+  const [photoPreview, setPhotoPreview] = useState("");
   const [filmList, setFilmList] = useState("");
   const [bioLoading, setBioLoading] = useState(false);
   const [bioError, setBioError] = useState("");
@@ -17,11 +18,9 @@ function AddActor({ addActor }) {
     const file = e.target.files[0];
     if (!file) return;
 
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setPhoto(reader.result);
-    };
-    reader.readAsDataURL(file);
+    setPhoto(file);
+    if (photoPreview) URL.revokeObjectURL(photoPreview);
+    setPhotoPreview(URL.createObjectURL(file));
   };
 
   const handleGenerateBio = async () => {
@@ -45,13 +44,13 @@ function AddActor({ addActor }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await addActor({
-      name,
-      birthYear: Number(birthYear),
-      totalFilms: Number(totalFilms),
-      photo,
-      bio,
-    });
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("birthYear", birthYear);
+    formData.append("totalFilms", totalFilms);
+    formData.append("bio", bio);
+    if (photo) formData.append("photo", photo);
+    await addActor(formData);
     navigate("/");
   };
 
@@ -147,9 +146,9 @@ function AddActor({ addActor }) {
           </label>
 
           <div className="flex items-center gap-4">
-            {photo && (
+            {photoPreview && (
               <img
-                src={photo}
+                src={photoPreview}
                 alt="Preview"
                 className="w-16 h-16 rounded-full object-cover ring-2 ring-amber-300"
               />
